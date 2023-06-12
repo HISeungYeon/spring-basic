@@ -1,10 +1,12 @@
 package hello.hellospring.repository;
 
 import hello.hellospring.domain.Member;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Array;
 import java.util.*;
 
+@Repository
 public class MemoryMemberRepository implements MemberRepository{
 
     private static Map<Long, Member> store = new HashMap<>();
@@ -24,12 +26,15 @@ public class MemoryMemberRepository implements MemberRepository{
 
     @Override
     public Optional<Member> findByName(String name) {
-        store.values().stream().filter(member -> member.getName().equals(name)).findAny();
-        return Optional.empty();
+        return store.values().stream().filter(member -> member.getName().equals(name)).findAny();
     }
 
     @Override
     public List<Member> findAll() {
         return new ArrayList<>(store.values()); // member의 value!!
+    }
+
+    public void clearStore(){
+        store.clear();
     }
 }
